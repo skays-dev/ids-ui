@@ -1,0 +1,30 @@
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">IDS</div>
+      <div>
+        <strong>Mini IDS IA</strong>
+        <span>Network Traffic Analysis</span>
+      </div>
+    </div>
+
+    <nav>
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/alerts" routerLinkActive="active">Alertes temps réel</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <div>
+        <h1>Système Intelligent d’Analyse du Trafic Réseau</h1>
+        <p>IDS, alertes, risques et workflow de vérification.</p>
+      </div>
+      <div class="user-card">
+        <span>{{ auth.currentUser()?.username }}</span>
+        <button (click)="auth.logout()">Logout</button>
+      </div>
+    </header>
+    <router-outlet />
+  </main>
+</div>

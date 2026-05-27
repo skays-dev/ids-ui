@@ -1,0 +1,42 @@
+@if (stats(); as s) {
+  <section class="grid">
+    <article class="card primary">
+      <span>Total alerts</span>
+      <strong>{{ s.total }}</strong>
+      <small>All stored alerts</small>
+    </article>
+    <article class="card">
+      <span>Last 24h</span>
+      <strong>{{ s.last24h }}</strong>
+      <small>Recent detections</small>
+    </article>
+    <article class="card warning">
+      <span>New alerts</span>
+      <strong>{{ s.newAlerts }}</strong>
+      <small>Need verification</small>
+    </article>
+    <article class="card danger">
+      <span>High risk new</span>
+      <strong>{{ s.highRiskNew }}</strong>
+      <small>Priority queue</small>
+    </article>
+  </section>
+
+  <section class="panels">
+    <div class="panel">
+      <h2>Risk distribution</h2>
+      <div class="bar-row"><span>High</span><div><b class="high" [style.width.%]="s.total ? value(s.byRisk, 'HIGH') * 100 / s.total : 0"></b></div><strong>{{ value(s.byRisk, 'HIGH') }}</strong></div>
+      <div class="bar-row"><span>Medium</span><div><b class="medium" [style.width.%]="s.total ? value(s.byRisk, 'MEDIUM') * 100 / s.total : 0"></b></div><strong>{{ value(s.byRisk, 'MEDIUM') }}</strong></div>
+      <div class="bar-row"><span>Low</span><div><b class="low" [style.width.%]="s.total ? value(s.byRisk, 'LOW') * 100 / s.total : 0"></b></div><strong>{{ value(s.byRisk, 'LOW') }}</strong></div>
+    </div>
+
+    <div class="panel">
+      <h2>Workflow status</h2>
+      <div class="status-list">
+        <div><span>NEW</span><strong>{{ value(s.byStatus, 'NEW') }}</strong></div>
+        <div><span>VERIFIED</span><strong>{{ value(s.byStatus, 'VERIFIED') }}</strong></div>
+        <div><span>SAFE</span><strong>{{ value(s.byStatus, 'SAFE') }}</strong></div>
+      </div>
+    </div>
+  </section>
+}
