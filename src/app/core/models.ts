@@ -37,7 +37,7 @@ export interface PageResponse<T> {
 export interface AlertStats {
   total: number;
   last24h: number;
-  newAlerts: number;
+  newIdsAlerts: number;
   highRiskNew: number;
   byRisk: Record<string, number>;
   byStatus: Record<string, number>;

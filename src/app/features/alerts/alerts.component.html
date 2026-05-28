@@ -1,29 +1,34 @@
-<section class="toolbar">
-  <div>
-    <h2>Alertes réseau</h2>
-    <p>Table temps réel avec pagination, statut de risque et workflow de vérification.</p>
-  </div>
-</section>
+
 
 <section class="filters">
-  <input [(ngModel)]="search" placeholder="Search attack, reason, IP..." (keyup.enter)="applyFilters()" />
+  <input
+    [(ngModel)]="search"
+    placeholder="Search attack, reason, IP..."
+    (keyup.enter)="applyFilters()"
+  />
+
   <select [(ngModel)]="risk" (change)="applyFilters()">
     <option value="">All risks</option>
     <option value="LOW">Low</option>
     <option value="MEDIUM">Medium</option>
     <option value="HIGH">High</option>
   </select>
+
   <select [(ngModel)]="status" (change)="applyFilters()">
     <option value="">All statuses</option>
     <option value="NEW">New</option>
     <option value="VERIFIED">Verified</option>
     <option value="SAFE">Safe</option>
   </select>
+
   <button (click)="applyFilters()">Apply</button>
 </section>
 
 <section class="table-card">
-  @if (loading) { <div class="loading">Loading alerts...</div> }
+  @if (loading) {
+    <div class="loading">Loading alerts...</div>
+  }
+
   <div class="table-wrap">
     <table>
       <thead>
@@ -37,41 +42,85 @@
           <th>Destination</th>
           <th>Proto</th>
           <th>Reason</th>
-          @if (canEdit()) { <th>Actions</th> }
+
+          @if (canEdit()) {
+            <th>Actions</th>
+          }
         </tr>
       </thead>
+
       <tbody>
         @for (alert of data()?.content || []; track alert.id) {
           <tr>
             <td>{{ alert.time | date:'short' }}</td>
-            <td><strong>{{ alert.attack }}</strong></td>
+
+            <td>
+              <strong>{{ alert.attack }}</strong>
+            </td>
+
             <td>{{ alert.confidence }}%</td>
-            <td><span class="pill" [ngClass]="riskClass(alert.riskCode)">{{ alert.riskCode }}</span></td>
-            <td><span class="status">{{ alert.statusCode }}</span></td>
+
+            <td>
+              <span class="pill" [ngClass]="riskClass(alert.riskCode)">
+                {{ alert.riskCode }}
+              </span>
+            </td>
+
+            <td>
+              <span class="status" [ngClass]="statusClass(alert.statusCode)">
+                {{ alert.statusCode }}
+              </span>
+            </td>
+
             <td>{{ alert.srcIp }}:{{ alert.srcPort }}</td>
             <td>{{ alert.dstIp }}:{{ alert.dstPort }}</td>
             <td>{{ alert.proto }}</td>
             <td>{{ alert.reason }}</td>
+
             @if (canEdit()) {
               <td class="actions">
-                <button (click)="updateStatus(alert, 'NEW')">New</button>
-                <button (click)="updateStatus(alert, 'VERIFIED')">Verified</button>
-                <button (click)="updateStatus(alert, 'SAFE')">Safe</button>
+                <select
+                  class="status-dropdown"
+                  [ngModel]="alert.statusCode"
+                  (ngModelChange)="onStatusChange(alert, $event)"
+                >
+                  @for (option of statusOptions; track option.code) {
+                    <option
+                      [value]="option.code"
+                      [disabled]="option.code === alert.statusCode"
+                    >
+                      {{ option.label }}{{ option.code === alert.statusCode ? '' : '' }}
+                    </option>
+                  }
+                </select>
               </td>
             }
           </tr>
         } @empty {
-          <tr><td colspan="10" class="empty">No alerts found.</td></tr>
+          <tr>
+            <td [attr.colspan]="canEdit() ? 10 : 9" class="empty">
+              No alerts found.
+            </td>
+          </tr>
         }
       </tbody>
     </table>
   </div>
 
   <footer class="pager">
-    <span>Page {{ (data()?.number || 0) + 1 }} / {{ data()?.totalPages || 1 }} — {{ data()?.totalElements || 0 }} alerts</span>
+    <span>
+      Page {{ (data()?.number || 0) + 1 }} / {{ data()?.totalPages || 1 }}
+      — {{ data()?.totalElements || 0 }} alerts
+    </span>
+
     <div>
-      <button (click)="previous()" [disabled]="data()?.first">Previous</button>
-      <button (click)="next()" [disabled]="data()?.last">Next</button>
+      <button (click)="previous()" [disabled]="data()?.first">
+        Previous
+      </button>
+
+      <button (click)="next()" [disabled]="data()?.last">
+        Next
+      </button>
     </div>
   </footer>
 </section>

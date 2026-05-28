@@ -20,7 +20,7 @@ export class AlertsSocketService {
       webSocketFactory: () => new SockJS(`${environment.apiUrl}/ws`),
       reconnectDelay: 5000,
       onConnect: () => {
-        this.client?.subscribe('/topic/alerts', (message: IMessage) => {
+        this.client?.subscribe('/topic/idsAlerts', (message: IMessage) => {
           this.zone.run(() => this.alertSubject.next(JSON.parse(message.body) as AlertSocketEvent));
         });
       }

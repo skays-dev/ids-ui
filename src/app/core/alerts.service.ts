@@ -15,13 +15,13 @@ export class AlertsService {
     if (params.status) httpParams = httpParams.set('status', params.status);
     if (params.risk) httpParams = httpParams.set('risk', params.risk);
     if (params.search) httpParams = httpParams.set('search', params.search);
-    return this.http.get<PageResponse<AlertDto>>(`${environment.apiUrl}/api/alerts`, { params: httpParams });
+    return this.http.get<PageResponse<AlertDto>>(`${environment.apiUrl}/api/idsAlerts`, { params: httpParams });
   }
 
   stats(): Observable<AlertStats> {
-    return this.http.get<AlertStats>(`${environment.apiUrl}/api/alerts/stats`);
+    return this.http.get<AlertStats>(`${environment.apiUrl}/api/idsAlerts/stats`);
   }
   updateStatus(id: number, statusCode: string): Observable<AlertDto> {
-    return this.http.patch<AlertDto>(`${environment.apiUrl}/api/alerts/${id}/status`, { statusCode });
+    return this.http.patch<AlertDto>(`${environment.apiUrl}/api/idsAlerts/${id}/status`, { statusCode });
   }
 }
