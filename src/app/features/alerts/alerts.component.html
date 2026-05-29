@@ -1,5 +1,3 @@
-
-
 <section class="filters">
   <input
     [(ngModel)]="search"
@@ -21,7 +19,7 @@
     <option value="SAFE">Safe</option>
   </select>
 
-  <button (click)="applyFilters()">Apply</button>
+  <button type="button" (click)="applyFilters()">Apply</button>
 </section>
 
 <section class="table-card">
@@ -42,10 +40,7 @@
           <th>Destination</th>
           <th>Proto</th>
           <th>Reason</th>
-
-          @if (canEdit()) {
-            <th>Actions</th>
-          }
+          <th>Actions</th>
         </tr>
       </thead>
 
@@ -77,8 +72,16 @@
             <td>{{ alert.proto }}</td>
             <td>{{ alert.reason }}</td>
 
-            @if (canEdit()) {
-              <td class="actions">
+            <td class="actions">
+              <button
+                type="button"
+                class="view-btn"
+                (click)="openDetails(alert)"
+              >
+                View
+              </button>
+
+              @if (canEdit()) {
                 <select
                   class="status-dropdown"
                   [ngModel]="alert.statusCode"
@@ -89,16 +92,16 @@
                       [value]="option.code"
                       [disabled]="option.code === alert.statusCode"
                     >
-                      {{ option.label }}{{ option.code === alert.statusCode ? '' : '' }}
+                      {{ option.label }}
                     </option>
                   }
                 </select>
-              </td>
-            }
+              }
+            </td>
           </tr>
         } @empty {
           <tr>
-            <td [attr.colspan]="canEdit() ? 10 : 9" class="empty">
+            <td colspan="10" class="empty">
               No alerts found.
             </td>
           </tr>
@@ -114,13 +117,20 @@
     </span>
 
     <div>
-      <button (click)="previous()" [disabled]="data()?.first">
+      <button type="button" (click)="previous()" [disabled]="data()?.first">
         Previous
       </button>
 
-      <button (click)="next()" [disabled]="data()?.last">
+      <button type="button" (click)="next()" [disabled]="data()?.last">
         Next
       </button>
     </div>
   </footer>
 </section>
+
+@if (selectedAlert()) {
+  <app-alert-details-dialog
+    [alert]="selectedAlert()!"
+    (close)="closeDetails()"
+  />
+}

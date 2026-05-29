@@ -12,15 +12,31 @@ export interface AlertDto {
   reason: string;
   attack: string;
   confidence: number;
+
   riskCode: 'LOW' | 'MEDIUM' | 'HIGH';
   riskLabel: string;
+
   statusCode: 'NEW' | 'VERIFIED' | 'SAFE';
   statusLabel: string;
+
   srcIp: string;
   dstIp: string;
   srcPort: number;
   dstPort: number;
   proto: number;
+
+  aiDetected: boolean;
+  aiConfidence: number | null;
+  aiLabel: string | null;
+
+  ruleDetected: boolean;
+  ruleId: string | null;
+  ruleCategory: string | null;
+  ruleMsg: string | null;
+
+  correlationKey: string | null;
+  evidence?: string | null;
+
   createdAt: string;
 }
 

@@ -195,3 +195,27 @@ tr:hover td {
     grid-template-columns: 1fr;
   }
 }
+.actions {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 9px 12px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.view-btn:hover {
+  background: #dbeafe;
+}
+
+.status-dropdown {
+  min-width: 145px;
+}

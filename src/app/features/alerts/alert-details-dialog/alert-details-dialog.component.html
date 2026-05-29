@@ -1,0 +1,138 @@
+<div class="modal-backdrop" (click)="close.emit()">
+  <section
+    class="modal-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="alert-details-title"
+    (click)="$event.stopPropagation()"
+  >
+    <header class="modal-header">
+      <div>
+        <h2 id="alert-details-title">Alert details</h2>
+        <p>
+          #{{ alert.id }} — {{ alert.time | date:'medium' }}
+        </p>
+      </div>
+
+      <button class="close-btn" type="button" (click)="close.emit()">
+        ×
+      </button>
+    </header>
+
+    <div class="summary">
+      <div>
+        <span>Attack</span>
+        <strong>{{ alert.attack || '-' }}</strong>
+      </div>
+
+      <div>
+        <span>Confidence</span>
+        <strong>{{ alert.confidence }}%</strong>
+      </div>
+
+      <div>
+        <span>Risk</span>
+        <strong class="pill" [ngClass]="riskClass(alert.riskCode)">
+          {{ alert.riskLabel || alert.riskCode }}
+        </strong>
+      </div>
+
+      <div>
+        <span>Status</span>
+        <strong class="status" [ngClass]="statusClass(alert.statusCode)">
+          {{ alert.statusLabel || alert.statusCode }}
+        </strong>
+      </div>
+    </div>
+
+    <div class="details-grid">
+      <div class="detail-card">
+        <h3>Network</h3>
+
+        <dl>
+          <dt>Source IP</dt>
+          <dd>{{ alert.srcIp || '-' }}</dd>
+
+          <dt>Source port</dt>
+          <dd>{{ alert.srcPort || '-' }}</dd>
+
+          <dt>Destination IP</dt>
+          <dd>{{ alert.dstIp || '-' }}</dd>
+
+          <dt>Destination port</dt>
+          <dd>{{ alert.dstPort || '-' }}</dd>
+
+          <dt>Protocol</dt>
+          <dd>{{ alert.proto || '-' }}</dd>
+        </dl>
+      </div>
+
+      <div class="detail-card">
+        <h3>AI detection</h3>
+
+        <dl>
+          <dt>Detected</dt>
+          <dd>
+            <span class="yes-no" [class.yes]="alert.aiDetected">
+              {{ alert.aiDetected ? 'Yes' : 'No' }}
+            </span>
+          </dd>
+
+          <dt>AI confidence</dt>
+          <dd>{{ alert.aiConfidence !== null ? alert.aiConfidence + '%' : '-' }}</dd>
+
+          <dt>AI label</dt>
+          <dd>{{ alert.aiLabel || '-' }}</dd>
+        </dl>
+      </div>
+
+      <div class="detail-card">
+        <h3>Rule detection</h3>
+
+        <dl>
+          <dt>Detected</dt>
+          <dd>
+            <span class="yes-no" [class.yes]="alert.ruleDetected">
+              {{ alert.ruleDetected ? 'Yes' : 'No' }}
+            </span>
+          </dd>
+
+          <dt>Rule ID</dt>
+          <dd>{{ alert.ruleId || '-' }}</dd>
+
+          <dt>Category</dt>
+          <dd>{{ alert.ruleCategory || '-' }}</dd>
+
+          <dt>Message</dt>
+          <dd>{{ alert.ruleMsg || '-' }}</dd>
+        </dl>
+      </div>
+
+      <div class="detail-card">
+        <h3>Other information</h3>
+
+        <dl>
+          <dt>Correlation key</dt>
+          <dd>{{ alert.correlationKey || '-' }}</dd>
+
+          <dt>Created at</dt>
+          <dd>{{ alert.createdAt | date:'medium' }}</dd>
+
+          <dt>Reason</dt>
+          <dd>{{ alert.reason || '-' }}</dd>
+        </dl>
+      </div>
+    </div>
+
+    @if (alert.evidence) {
+      <div class="evidence-card">
+        <h3>Evidence</h3>
+        <pre>{{ alert.evidence }}</pre>
+      </div>
+    }
+
+    <footer class="modal-footer">
+      <button type="button" (click)="close.emit()">Close</button>
+    </footer>
+  </section>
+</div>

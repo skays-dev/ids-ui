@@ -7,16 +7,18 @@ import { AlertsService } from '../../core/alerts.service';
 import { AlertsSocketService } from '../../core/alerts-socket.service';
 import { AlertDto, PageResponse } from '../../core/models';
 import { AuthService } from '../../core/auth.service';
+import { AlertDetailsDialogComponent } from './alert-details-dialog/alert-details-dialog.component';
 
 @Component({
   selector: 'app-alerts',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AlertDetailsDialogComponent],
   templateUrl: './alerts.component.html',
   styleUrl: './alerts.component.css'
 })
 export class AlertsComponent implements OnInit, OnDestroy {
   data = signal<PageResponse<AlertDto> | null>(null);
+  selectedAlert = signal<AlertDto | null>(null);
 
   loading = false;
   page = 0;
@@ -88,6 +90,14 @@ export class AlertsComponent implements OnInit, OnDestroy {
       this.page--;
       this.load();
     }
+  }
+
+  openDetails(alert: AlertDto): void {
+    this.selectedAlert.set(alert);
+  }
+
+  closeDetails(): void {
+    this.selectedAlert.set(null);
   }
 
   updateStatus(alert: AlertDto, statusCode: string): void {
