@@ -61,7 +61,7 @@ export interface AlertStats {
 
 
 export interface AlertSocketEvent {
-  type: 'ALERT_UPDATED' | 'ALERTS_REFRESH_REQUIRED';
+  type: 'ALERT_CREATED' | 'ALERT_UPDATED' | 'ALERTS_REFRESH_REQUIRED';
   at: string;
-  alert?: AlertDto;
+  idsAlert?: AlertDto;
 }
